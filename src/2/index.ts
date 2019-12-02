@@ -45,11 +45,15 @@ const runProgram = (input: number[], noun: number, verb: number) => {
 
 const desiredResult = 19690720;
 
-for (let n = 0; n < 100; n++) {
-  for (let v = 0; v < 100; v++) {
-    const programResult = runProgram(puzzleInput, n, v);
-    if (programResult.solution === desiredResult) {
-      console.log({ programResult, puzzleSolution: 100 * n + v });
+const findInputs = () => {
+  for (let n = 0; n < 100; n++) {
+    for (let v = 0; v < 100; v++) {
+      const programResult = runProgram(puzzleInput, n, v);
+      if (programResult.solution === desiredResult) {
+        return { programResult, puzzleSolution: 100 * n + v };
+      }
     }
   }
-}
+};
+
+console.log(findInputs());
