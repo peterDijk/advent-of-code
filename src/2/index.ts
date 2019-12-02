@@ -1,9 +1,5 @@
 import puzzleInput from "./input";
 
-const intcode = [...puzzleInput];
-intcode[1] = 12;
-intcode[2] = 2;
-
 const add = (one: number, two: number) => {
   return one + two;
 };
@@ -17,45 +13,55 @@ const Operation = {
   99: "stop"
 };
 
-let next = true;
-let cursor = 0;
-let cursorStep = 4;
+const runProgram = (input: number[], noun: number, verb: number) => {
+  const intcode = [...input];
+  intcode[1] = noun;
+  intcode[2] = verb;
 
-while (next) {
-  const opCode: 1 | 2 | 99 = intcode[cursor] as 1 | 2 | 99;
-  const op = Operation[opCode];
-  const value1Position = intcode[cursor + 1];
-  const value2Position = intcode[cursor + 2];
-  const storePosition = intcode[cursor + 3];
+  let next = true;
+  let cursor = 0;
+  let cursorStep = 4;
 
-  const value1 = intcode[value1Position];
-  const value2 = intcode[value2Position];
+  while (next) {
+    const opCode: 1 | 2 | 99 = intcode[cursor] as 1 | 2 | 99;
+    const op = Operation[opCode];
+    const value1Position = intcode[cursor + 1];
+    const value2Position = intcode[cursor + 2];
+    const storePosition = intcode[cursor + 3];
 
-  console.group("op-block");
-  console.log({
-    cursor,
-    opCode,
-    op,
-    value1Position,
-    value2Position,
-    storePosition,
-    value1,
-    value2
-  });
+    const value1 = intcode[value1Position];
+    const value2 = intcode[value2Position];
 
-  if (typeof op !== "function") {
-    console.log("break!!");
-    next = false;
-    break;
+    if (typeof op !== "function") {
+      next = false;
+      break;
+    }
+
+    const solution = op(value1, value2);
+    intcode[storePosition] = solution;
+
+    cursor += cursorStep;
   }
+  return { solution: intcode[0], noun, verb };
+};
 
-  const solution = op(value1, value2);
-  console.log({ solution });
-  intcode[storePosition] = solution;
+type Pair = {
+  noun: number;
+  verb: number;
+};
 
-  cursor += cursorStep;
-  console.log("next cursor: ", cursor);
-  console.groupEnd();
+const possiblePairs: Pair[] = [];
+
+for (let n = 0; n < 100; n++) {
+  for (let v = 0; v < 100; v++) {
+    possiblePairs.push({ noun: n, verb: v });
+  }
 }
 
-console.log({ end_solution: intcode[0] });
+const desiredResult = 19690720;
+possiblePairs.forEach(value => {
+  const programResult = runProgram(puzzleInput, value.noun, value.verb);
+  if (programResult.solution === desiredResult) {
+    console.log(programResult);
+  }
+});
