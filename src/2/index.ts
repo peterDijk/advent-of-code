@@ -59,6 +59,7 @@ for (let n = 0; n < 100; n++) {
 }
 
 const desiredResult = 19690720;
+
 possiblePairs.forEach(value => {
   const programResult = runProgram(puzzleInput, value.noun, value.verb);
   if (programResult.solution === desiredResult) {
