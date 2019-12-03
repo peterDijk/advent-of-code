@@ -1,5 +1,5 @@
 import wirePaths from "./input";
-// import wirePaths from "./testInput3
+// import wirePaths from "./testInput3";
 
 const start = Date.now();
 
@@ -110,7 +110,6 @@ wirePaths.wire1.map(instr => {
   newSteps.forEach(step => {
     wire1Positions.push(step);
   });
-  // wire1Positions.push(positionAfterMove);
 });
 
 wirePaths.wire2.map(instr => {
@@ -124,7 +123,6 @@ wirePaths.wire2.map(instr => {
   newSteps.forEach(step => {
     wire2Positions.push(step);
   });
-  // wire2Positions.push(positionAfterMove);
 });
 
 interface Intersection extends GridPosition {
@@ -144,6 +142,22 @@ wire2Positions.forEach(pos => {
   }
 });
 
+let leastSteps: number = 0;
+
+intersections.forEach(intersec => {
+  const nrStepsUntilIntersecW1 = wire1Positions.findIndex(
+    pos => pos.x === intersec.x && pos.y === intersec.y
+  );
+  const nrStepsUntilIntersecW2 = wire2Positions.findIndex(
+    pos => pos.x === intersec.x && pos.y === intersec.y
+  );
+  const combined = nrStepsUntilIntersecW1 + nrStepsUntilIntersecW2;
+  // console.log({ combined, nrStepsUntilIntersecW1, nrStepsUntilIntersecW2 });
+  if (leastSteps === 0 || combined < leastSteps) {
+    leastSteps = combined;
+  }
+});
+
 const closestIntersection = intersections.reduce((acc, val) => {
   if (val.dist < acc.dist) {
     return val;
@@ -151,8 +165,9 @@ const closestIntersection = intersections.reduce((acc, val) => {
   return acc;
 });
 
-// const manhattanDistOrigin = closestIntersection.x + closestIntersection.y;
+// console.log({ wire1Positions, wire2Positions });
 
+console.log({ leastSteps });
 console.log({ intersections });
 console.log({ closestIntersection });
 
