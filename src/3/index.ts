@@ -1,5 +1,7 @@
 import wirePaths from "./input";
-// import wirePaths from "./testInput3";
+// import wirePaths from "./testInput3
+
+const start = Date.now();
 
 enum Direction {
   LEFT = "LEFT",
@@ -153,4 +155,7 @@ const closestIntersection = intersections.reduce((acc, val) => {
 
 console.log({ intersections });
 console.log({ closestIntersection });
-// console.log({ manhattanDistOrigin });
+
+const end = Date.now();
+const duration = end - start;
+console.log({ programDuration: `${duration / 1000}sec` });
