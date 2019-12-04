@@ -1,0 +1,11 @@
+{
+  "name": "201812_Adventofcode",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^10.12.12",
+    "axios": "^0.18.0",
+    "typescript": "^3.2.1"
+  }
+}
