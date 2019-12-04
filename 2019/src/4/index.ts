@@ -1,12 +1,24 @@
-const input = "273025-767253";
-const rangeLowest = 273025;
-const rangeHighest = 767253;
-const strDigits = rangeLowest.toString().split("");
-const digits = strDigits.map(Number);
+import reader from "../utils/reader";
 
-console.log({ digits });
+const run = async () => {
+  try {
+    const inputData = await reader("../../input/4/input.txt");
+    const parsedData = inputData.split("-").map(Number);
+    const [low, high] = parsedData;
 
-let count = 0;
-let pass = rangeLowest;
+    console.log({ low, high });
 
-while (true) {}
+    const strDigits = low.toString().split("");
+    const digits = strDigits.map(Number);
+
+    console.log({ digits });
+
+    // let count = 0;
+    // let pass = rangeLowest;
+
+    // while (true) {}
+  } catch (err) {
+    console.log({ err });
+  }
+};
+run();
